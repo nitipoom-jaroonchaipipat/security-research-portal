@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Defense Learning Portal</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .defense-banner {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        header {
+            background: #fff;
+            padding: 40px 30px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .disclaimer {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #0c5460;
+            line-height: 1.5;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #fbfbfb;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .items-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .item-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            padding: 20px;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            scroll-margin-top: 20px;
+        }
+
+        .item-card:target {
+            border-color: #007bff;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.25);
+            background: #f8f9ff;
+        }
+
+        .item-card:hover {
+            border-color: #28a745;
+            box-shadow: 0 2px 8px rgba(40,167,69,0.15);
+        }
+
+        .item-left {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .item-id {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .item-status {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-critical { background: #000; color: white; border: 1px solid #333; }
+        .status-high { background: #d9534f; color: white; border: 1px solid #c9302c; }
+        .status-medium { background: #ec971f; color: white; border: 1px solid #d58512; }
+        .status-na { background: #6c757d; color: white; border: 1px solid #5a6268; }
+
+        .product-detail {
+            background: #e8f5e8;
+            color: #2d5016;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            border-left: 3px solid #28a745;
+        }
+
+        .product-line {
+            margin-bottom: 4px;
+        }
+
+        .product-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .researcher-info {
+            background: #fff3cd;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border-left: 3px solid #ffc107;
+        }
+
+        .researcher-name {
+            font-weight: 600;
+            color: #856404;
+            font-size: 0.95rem;
+        }
+
+        .publish-date {
+            color: #856404;
+            font-size: 0.85rem;
+        }
+
+        .item-description {
+            color: #495057;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #007bff;
+        }
+
+        .item-description::before {
+            content: "Security Learning Note: ";
+            font-weight: 600;
+            color: #007bff;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 120px;
+        }
+
+        .view-btn, .learn-btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .view-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #218838;
+        }
+
+        .learn-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .learn-btn:hover {
+            background: #0056b3;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            border-top: 1px solid #e5e5e5;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+
+        .footer-disclaimer {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            color: #155724;
+        }
+
+        .footer-disclaimer h4 {
+            margin-bottom: 10px;
+            color: #155724;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .item-card {
+                flex-direction: column;
+            }
+            
+            .item-left {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .button-group {
+                flex-direction: row;
+                min-width: auto;
+            }
+            
+            .container {
+                margin: 0 10px;
+            }
+            
+            .content, .controls, header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="defense-banner">
+            CYBERSECURITY DEFENSE EDUCATION - LEARNING TO PROTECT SYSTEMS AND USERS
+        </div>
+
+        <header>
+            <h1>Cybersecurity Defense Learning Portal</h1>
+            <p>Educational vulnerability research for defensive cybersecurity training and system protection</p>
+            
+            <div class="disclaimer">
+                <p><strong>Educational Defense Training:</strong> This learning portal provides vulnerability information exclusively for cybersecurity education, defensive training, and system protection purposes. All content helps security professionals learn to defend against security threats and strengthen system security.</p>
+            </div>
+
+            <div class="disclaimer" style="background: #d4edda; border-left-color: #28a745; color: #155724; margin-top: 15px;">
+                <h4 style="margin-bottom: 10px; color: #155724;">EU DSA Article 16 Compliance - Educational Defense Purpose</h4>
+                <p><strong>Cybersecurity Education Mission:</strong> This educational portal serves defensive cybersecurity training with content that is:</p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li><strong>Educational Focus:</strong> Designed for cybersecurity learning and defensive skill development</li>
+                    <li><strong>Protection Purpose:</strong> Used to teach security professionals how to protect systems</li>
+                    <li><strong>Defense Training:</strong> Helps learners understand vulnerabilities to prevent exploitation</li>
+                    <li><strong>Academic Research:</strong> Supports legitimate cybersecurity education and research</li>
+                    <li><strong>Mitigation Learning:</strong> Teaches vulnerability mitigation and security hardening</li>
+                </ul>
+                <p><strong>No Attack Facilitation:</strong> This educational platform does not support, enable, or facilitate unlawful attacks or technical harms. All vulnerability information serves legitimate cybersecurity defense education to help protect systems and users from security threats.</p>
+                <p><strong>Defensive Education:</strong> Content focuses on teaching security professionals to recognize, understand, and defend against vulnerabilities through proper security controls and mitigation strategies.</p>
+                <p><strong>Academic Sources:</strong> All references link to official cybersecurity education sources and recognized security authorities for legitimate educational purposes.</p>
+            </div>
+        </header>
+
+        <div class="controls">
+            <input type="text" class="search-input" placeholder="Search cybersecurity defense learning materials..." id="searchInput">
+        </div>
+
+        <div class="content">
+            <div class="items-grid" id="itemsGrid">
+                
+     <div class="item-card" data-search="CVE-2023-49453 Racktables XSS reflected search index.php page=search cookies">
+                    <div class="item-left">
+                        <div class="item-header">
+                            <div class="item-id">CVE-2023-49453</div>
+                            <div class="item-status status-na">N/A</div>
+                        </div>
+                        
+                        <div class="product-detail">
+                            <div class="product-line">Learning Target: Racktables</div>
+                            <div class="product-line">Affected version: ≤ 0.22.0</div>
+                            <div class="product-line">Learning Component: search</div>
+                        </div>
+                        
+                        <div class="researcher-info">
+                            <div class="researcher-name">Educational Research: Nitipoom Jaroonchaipipat</div>
+                            <div class="publish-date">Published: November 11, 2023</div>
+                        </div>
+                        
+                        <div class="item-description">
+                            A Cross-Site Scripting (XSS) vulnerability in Racktables, located in the 'search' component at '/index.php?page=search', allows attackers to capture a victim's cookies through reflected Cross-Site scripting method.
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-49453" target="_blank" class="view-btn">
+                            Official Advisory
+                        </a>
+                        <a href="#" class="learn-btn">
+                            Defense Guide
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="no-results" id="noResults" style="display: none;">
+                No cybersecurity learning materials found matching your search criteria.
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-disclaimer">
+                <h4>Cybersecurity Education & Legal Compliance</h4>
+                <p><strong>Educational Purpose:</strong> This learning portal provides vulnerability information exclusively for cybersecurity education, defensive training, and professional development in information security.</p>
+                <p><strong>Defense-Focused Learning:</strong> All content emphasizes understanding security vulnerabilities for protection, mitigation, and defensive purposes only.</p>
+                <p><strong>Academic Sources:</strong> All information is sourced from publicly available educational databases including the National Vulnerability Database (NVD), MITRE Corporation, and official security education sources.</p>
+                <p><strong>No Malicious Use:</strong> This educational platform does not support, enable, or facilitate any unlawful activities or technical attacks. Content is designed to improve cybersecurity awareness and defensive capabilities.</p>
+                <p><strong>Responsible Learning:</strong> Users are responsible for ensuring their use of this educational content complies with all applicable laws and regulations.</p>
+            </div>
+            
+            <p>&copy; 2024 Cybersecurity Defense Learning Portal. Educational content for defensive security training.</p>
+            <p>Supporting cybersecurity education and professional development.</p>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const items = document.querySelectorAll('.item-card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const searchData = item.getAttribute('data-search').toLowerCase();
+                if (searchData.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show/hide no results message
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+
+        // Handle hash-based navigation
+        function scrollToHashOnLoad() {
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }
+        }
+
+        // Scroll to target on page load
+        window.addEventListener('load', scrollToHashOnLoad);
+        
+        // Scroll to target when hash changes
+        window.addEventListener('hashchange', scrollToHashOnLoad);
+
+        // Add IDs to all CVE cards if they don't have them
+        document.querySelectorAll('.item-card').forEach(card => {
+            if (!card.id) {
+                const cveId = card.querySelector('.item-id').textContent.toLowerCase();
+                card.id = cveId;
+            }
+        });
+
+        // Add click handlers for defense guide buttons
+        document.querySelectorAll('.learn-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Defense Learning Guide: This would provide educational content on how to protect against this type of vulnerability, including security controls, mitigation strategies, and best practices.');
+            });
+        });
+
+        // Add some interactive feedback
+        document.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Console log for debugging
+        console.log('Cybersecurity Defense Learning Portal loaded successfully');
+        console.log('Educational modules loaded:', document.querySelectorAll('.item-card').length);
+    </script>
+</body>
+</html>
